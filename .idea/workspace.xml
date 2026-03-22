@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a15c9e0f-90a1-43dd-a436-ced45bcb8202" name="Changes" comment="Roomif">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routes/visualizer.$id.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/visualizer.$id.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +78,7 @@
       <option name="presentableId" value="Default" />
       <updated>1773480672870</updated>
       <workItem from="1773480673794" duration="31997000" />
-      <workItem from="1774198012407" duration="1030000" />
+      <workItem from="1774198012407" duration="2399000" />
     </task>
     <task id="LOCAL-00001" summary="Roomify">
       <option name="closed" value="true" />
