@@ -2,7 +2,7 @@ import { useNavigate, useOutletContext, useParams} from "react-router";
 import React, {useEffect, useRef, useState} from "react";
 import type {Image} from "lightningcss";
 import {generate3DView} from "../../lib/ai.action";
-import {Box, Download, RefreshCcw, X} from "lucide-react";
+import {Box, Download, RefreshCcw, Share2, X} from "lucide-react";
 import Button from "../../components/ui/Button";
 import {createProject, getProjectById} from "../../lib/puter.action";
 import {ReactCompareSlider, ReactCompareSliderImage} from "react-compare-slider";
@@ -127,88 +127,87 @@ const VisualizerId = () => {
                 </Button>
             </nav>
 
-            <section className={"content"}>
-                <div className={"panel"}>
-                    <div className={"panel-header"}>
-                        <div className={"panel-meta"}>
+            <section className="content">
+                <div className="panel">
+                    <div className="panel-header">
+                        <div className="panel-meta">
                             <p>Project</p>
                             <h2>{project?.name || `Residence ${id}`}</h2>
-                            <p className={"note"}> Created by You</p>
+                            <p className="note">Created by You</p>
                         </div>
 
-                        <div className={"panel-actions"}>
+                        <div className="panel-actions">
                             <Button
-                                size={"sm"}
+                                size="sm"
                                 onClick={handleExport}
-                                className={"export"}
+                                className="export"
                                 disabled={!currentImage}
-                                >
-                                <Download className={"w-4 h-4 mr-2"}/> Export
+                            >
+                                <Download className="w-4 h-4 mr-2" /> Export
+                            </Button>
+                            <Button size="sm" onClick={() => {}} className="share">
+                                <Share2 className="w-4 h-4 mr-2" />
+                                Share
                             </Button>
                         </div>
                     </div>
 
-                    <div className={`render-area ${isProcessing ? 'is-processing':''}`}>
+                    <div className={`render-area ${isProcessing ? 'is-processing': ''}`}>
                         {currentImage ? (
-                            <img src ={ currentImage} alt={'Ai Render'}
-                                 className={"render-img"}/>
-                        ): (
-                            <div className={"render-placeholder"}>
+                            <img src={currentImage} alt="AI Render" className="render-img" />
+                        ) : (
+                            <div className="render-placeholder">
                                 {project?.sourceImage && (
-                                    <img src={project?.sourceImage} alt={"Original"}
-                                         className={"render-fallback"} />
+                                    <img src={project?.sourceImage} alt="Original" className="render-fallback" />
                                 )}
                             </div>
                         )}
 
                         {isProcessing && (
-                            <div className={"render-overlay"}>
-                                <div className={"rendering-card"}>
-                                    <RefreshCcw className={"spinner"}/>
-                                    <span className={"title"}>Rendering ...</span>
-                                    <span className={"subtitle"}>Generating your 3D visualization</span>
+                            <div className="render-overlay">
+                                <div className="rendering-card">
+                                    <RefreshCcw className="spinner" />
+                                    <span className="title">Rendering...</span>
+                                    <span className="subtitle">Generating your 3D visualization</span>
                                 </div>
                             </div>
-
                         )}
-
                     </div>
 
                 </div>
 
-                <div className={"panel-compare"}>
-                    <div className={"panel-header"}>
-                        <div className={"panel-meta"}>
+                <div className="panel compare">
+                    <div className="panel-header">
+                        <div className="panel-meta">
                             <p>Comparison</p>
                             <h3>Before and After</h3>
                         </div>
-                        <div className={"compare-stage"}>
-                            {project?.sourceImage && currentImage ?(
-                                <ReactCompareSlider
-                                    defaultValue={50}
-                                    style={{width:'100%', height:'auto'}}
-                                    itemOne= {
-                                    <ReactCompareSliderImage src={project?.sourceImage} alt={"before"}
-                                                             className={"compare-img"}/>
-                                    }
-                                    itemTwo={
-                                        <ReactCompareSliderImage src={currentImage || project?.renderedImage || undefined} alt={"after"}
-                                                                 className={"compare-img"}/>
-                                    }
-                                />
-                            ) : (
-                                <div className={"compare-fallback"}>
-                                    {project?.sourceImage && (
-                                        <img src={project.sourceImage} alt="Before" className="compare-img" />
-                                    )}
-                                </div>
-                            )}
-                        </div>
+                        <div className="hint">Drag to compare</div>
+                    </div>
+
+                    <div className="compare-stage">
+                        {project?.sourceImage && currentImage ? (
+                            <ReactCompareSlider
+                                defaultValue={50}
+                                style={{ width: '100%', height: 'auto' }}
+                                itemOne={
+                                    <ReactCompareSliderImage src={project?.sourceImage} alt="before" className="compare-img" />
+                                }
+                                itemTwo={
+                                    <ReactCompareSliderImage src={currentImage || project?.renderedImage} alt="after" className="compare-img" />
+                                }
+                            />
+                        ) : (
+                            <div className="compare-fallback">
+                                {project?.sourceImage && (
+                                    <img src={project.sourceImage} alt="Before" className="compare-img" />
+                                )}
+                            </div>
+                        )}
                     </div>
                 </div>
             </section>
         </div>
-
     )
 }
 
