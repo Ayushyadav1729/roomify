@@ -111,6 +111,7 @@ const VisualizerId = () => {
     }, [project, isProjectLoading]);
 
 
+    // @ts-ignore
     return (
         <div className={"visualizer"}>
             <nav className={"topbar"}>
@@ -194,7 +195,7 @@ const VisualizerId = () => {
                                     <ReactCompareSliderImage src={project?.sourceImage} alt="before" className="compare-img" />
                                 }
                                 itemTwo={
-                                    <ReactCompareSliderImage src={currentImage || project?.renderedImage} alt="after" className="compare-img" />
+                                    <ReactCompareSliderImage src={currentImage} alt="after" className="compare-img" />
                                 }
                             />
                         ) : (
