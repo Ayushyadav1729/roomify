@@ -1,87 +1,121 @@
-# Welcome to React Router!
+# Roomify
 
-A modern, production-ready template for building full-stack React applications using React Router.
+Roomify is a React Router application for turning 2D floor plans into AI-generated top-down 3D architectural renders. Users sign in with Puter, upload a JPG or PNG floor plan, generate a render with Puter AI, and revisit saved projects from the dashboard.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+## What It Does
 
-## Features
+- Upload floor plans from the home page
+- Authenticate users with Puter
+- Generate 3D visualizations from 2D plans using `puter.ai.txt2img`
+- Save source and rendered images through Puter hosting and a Puter worker backend
+- View saved projects in a dashboard
+- Compare original and rendered images with a before/after slider
+- Export rendered images as `.png`
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+## Stack
+
+- React 19
+- React Router 7
+- TypeScript
+- Vite
+- Tailwind CSS v4
+- Puter SDK
+- `react-compare-slider`
+- `lucide-react`
+
+## Project Structure
+
+```text
+app/
+  root.tsx                 App shell, auth context, global layout
+  routes/home.tsx          Landing page, upload flow, projects list
+  routes/visualizer.$id.tsx Project visualizer and render screen
+components/
+  Navbar.tsx               Header and auth actions
+  Upload.tsx               File upload and progress UI
+lib/
+  ai.action.ts             AI image generation flow
+  puter.action.ts          Auth and project persistence helpers
+  puter.hosting.ts         Puter hosting helpers
+public/
+  favicon.ico              App favicon
+```
+
+## Environment
+
+Create a local env file from the example:
+
+```bash
+cp .env.example .env.local
+```
+
+Set the following variable:
+
+```env
+VITE_PUTER_WORKER_URL=
+```
+
+`VITE_PUTER_WORKER_URL` should point to the Puter worker that serves the project APIs used by the app:
+
+- `GET /api/projects/list`
+- `GET /api/projects/get?id=...`
+- `POST /api/projects/save`
+
+Without this value, project history and save/load behavior are skipped.
 
 ## Getting Started
 
-### Installation
-
-Install the dependencies:
+Install dependencies:
 
 ```bash
 npm install
 ```
 
-### Development
-
-Start the development server with HMR:
+Start the development server:
 
 ```bash
 npm run dev
 ```
 
-Your application will be available at `http://localhost:5173`.
+By default, the app runs at `http://localhost:5173`.
 
-## Building for Production
+## Available Scripts
 
-Create a production build:
+```bash
+npm run dev        # Start the React Router dev server
+npm run build      # Create a production build
+npm run start      # Serve the production build
+npm run typecheck  # Generate route types and run TypeScript
+```
+
+## Application Flow
+
+1. Sign in with Puter from the navbar.
+2. Upload a floor plan image from the home page.
+3. Roomify creates a project record and opens the visualizer route.
+4. The visualizer fetches the project and triggers AI generation if no render exists yet.
+5. The generated image is saved back to Puter-backed storage through the worker.
+6. Users can compare before/after, revisit saved projects, and export the generated render.
+
+## Notes
+
+- Accepted upload formats are `.jpg`, `.jpeg`, and `.png`.
+- The upload UI enforces sign-in before file processing begins.
+- Generated images are requested as `1024 x 1024`.
+- The current UI uses Puter hosting plus a worker-backed API for persistence.
+
+## Production Build
+
+Build the app:
 
 ```bash
 npm run build
 ```
 
-## Deployment
-
-### Docker Deployment
-
-To build and run using Docker:
+Serve the compiled output:
 
 ```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
+npm run start
 ```
 
-The containerized application can be deployed to any platform that supports Docker, including:
-
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
-
----
-
-Built with ❤️ using React Router.
+The production server serves the generated files from `build/client` and `build/server`.
