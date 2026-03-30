@@ -1,6 +1,6 @@
-# Roomify
+# Planora
 
-Roomify is a React Router application for turning 2D floor plans into AI-generated top-down 3D architectural renders. Users sign in with Puter, upload a JPG or PNG floor plan, generate a render with Puter AI, and revisit saved projects from the dashboard.
+Planora is a React Router application for turning 2D floor plans into AI-generated top-down 3D architectural renders. Users sign in with Puter, upload a JPG or PNG floor plan, generate a render with Puter AI, and revisit saved projects from the dashboard.
 
 ## What It Does
 
@@ -92,7 +92,7 @@ npm run typecheck  # Generate route types and run TypeScript
 
 1. Sign in with Puter from the navbar.
 2. Upload a floor plan image from the home page.
-3. Roomify creates a project record and opens the visualizer route.
+3. Planora creates a project record and opens the visualizer route.
 4. The visualizer fetches the project and triggers AI generation if no render exists yet.
 5. The generated image is saved back to Puter-backed storage through the worker.
 6. Users can compare before/after, revisit saved projects, and export the generated render.

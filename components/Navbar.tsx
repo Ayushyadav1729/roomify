@@ -1,10 +1,11 @@
 import React from 'react'
 import {Box} from "lucide-react";
 import Button from "./ui/Button";
-import {useOutletContext} from "react-router";
+import {Link, useNavigate, useOutletContext} from "react-router";
 
 const Navbar = () => {
     const { isSignedIn, userName, signIn, signOut} = useOutletContext<AuthContext>();
+    const navigate = useNavigate();
 
     const handleAuthClick = async () => {
         if(isSignedIn) {
@@ -22,6 +23,22 @@ const Navbar = () => {
             console.error(`Puter sign in failed with error: ${e}`);
         }
     };
+
+    const handleWorkspaceClick = async (e: React.MouseEvent<HTMLAnchorElement>) => {
+        if (isSignedIn) return;
+
+        e.preventDefault();
+
+        try {
+            const signedIn = await signIn();
+            if (signedIn) {
+                navigate("/projects");
+            }
+        } catch (error) {
+            console.error(`Puter sign in failed with error: ${error}`);
+        }
+    };
+
     return (
         <header className="navbar">
             <nav className="inner">
@@ -30,15 +47,14 @@ const Navbar = () => {
                         <Box className="logo" />
 
                         <span className="name">
-                            Roomify
+                            Planora
                         </span>
                     </div>
 
                     <ul className="links">
-                        <a href="#">Product</a>
-                        <a href="#">Pricing</a>
-                        <a href="#">Community</a>
-                        <a href="#">Enterprise</a>
+                        <Link to="/">Home</Link>
+                        <Link to="/create">Create</Link>
+                        <Link to="/projects" onClick={handleWorkspaceClick}>Workspace</Link>
                     </ul>
                 </div>
 

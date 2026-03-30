@@ -26,7 +26,7 @@ const VisualizerId = () => {
 
         const link = document.createElement("a");
         link.href = currentImage;
-        link.download = `${project?.name || `roomify-${id || "render"}`}.png`;
+        link.download = `${project?.name || `planora-${id || "render"}`}.png`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -119,7 +119,7 @@ const VisualizerId = () => {
                 <Box className="logo" />
 
                 <span className="name">
-                            Roomify
+                            Planora
                         </span>
                 </div>
                 <Button variant={"ghost"} size={"sm"} onClick={handleBack}

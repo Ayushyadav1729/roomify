@@ -4,21 +4,22 @@ import {ArrowRight, ArrowUpRight, Clock, Layers} from "lucide-react"
 import Button from "../../components/ui/Button";
 import Upload from "../../components/Upload";
 import {useNavigate} from "react-router";
-import {useEffect, useRef, useState} from "react";
-import {createProject, getProjects} from "../../lib/puter.action";
+import React, {useRef} from "react";
+import {createProject} from "../../lib/puter.action";
+import Projects from "./projects";
+import {ReactCompareSlider, ReactCompareSliderImage} from "react-compare-slider";
 
 
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Roomify" },
-    { name: "description", content: "Welcome to Roomify!" },
+    { title: "Planora" },
+    { name: "description", content: "Welcome to Planora!" },
   ];
 }
 
 export default function Home() {
     const navigate = useNavigate();
-    const [projects, setProjects] = useState<DesignItem[]>([])
     const isCreatingProjectRef = useRef(false);
 
     const handleUploadComplete = async (base64Image: string) => {
@@ -40,7 +41,6 @@ export default function Home() {
                 return false;
             }
 
-            setProjects((prev) => [saved, ...prev]);
             navigate(`/visualizer/${newId}`,{
                 state: {
                     initialImage: saved.sourceImage,
@@ -53,15 +53,7 @@ export default function Home() {
         } finally {
             isCreatingProjectRef.current =false;
         }
-        }
-
-        useEffect(() =>{
-            const fetchProjects = async () => {
-                const items = await getProjects();
-                setProjects(items)
-            }
-            fetchProjects();
-        }, [])
+    };
 
   return (
       <div className="home">
@@ -72,14 +64,14 @@ export default function Home() {
                     <div className="pulse"></div>
                 </div>
 
-                <p>Introducing Roomify 2.0</p>
+                <p>Introducing Planora </p>
             </div>
 
             <h1> Build beautiful spaces at the speed of
-            thought with Roomify</h1>
+            thought with Planora</h1>
 
             <p className="subtitle">
-                Roomify is an AI-first design environment
+                Planora is an AI-first design environment
                 that helps you visualize, render, and ship
                 architectural projects faster than ever.
             </p>
@@ -114,46 +106,53 @@ export default function Home() {
             </div>
         </section>
 
-        <section className={"projects"}>
-            <div className={"section-inner"}>
-                <div className={"section-head"}>
-                    <div className={"copy"}>
-                        <h2>Projects</h2>
-                        <p>Your latest work and shared community projects, all in one place.</p>
-                    </div>
-                </div>
+          <section id="projects" className="projects">
+              <div className="section-inner">
 
-                <div className={"projects-grid"}>
-                    {projects.map(({id, name, renderedImage, sourceImage,
-                        timestamp}) => (
-                        <div key={id} className={"project-card group"} onClick={() => navigate(`/visualizer/${id}`)}>
-                    <div className={"preview"}>
-                        <img src={renderedImage || sourceImage}
-                             alt={"Project"}/>
-                        <div className={"badge"}>
-                            <span>Community</span>
-                        </div>
-                    </div>
+                  <div className="section-head">
+                      <div className="copy">
+                          <h2>Transforming 2D into 3D</h2>
+                          <p>
+                              See how your 2D floor plans transform into realistic 3D designs in just a few simple steps.
+                          </p>
+                      </div>
+                  </div>
 
-                    <div className={"card-body"}>
-                        <div>
-                            <h3>{name}</h3>
+                  <div className="section-body">
+                      <div className="panel compare rounded-2xl overflow-hidden bg-white border border-zinc-200 shadow-xl">
 
-                            <div className={"meta"}>
-                                <Clock size={12} />
-                                <span>{new Date(timestamp).toLocaleDateString()}</span>
-                                <span>By Ayush</span>
-                            </div>
-                        </div>
-                        <div className={"arrow"}>
-                            <ArrowUpRight size={18}/>
-                        </div>
-                    </div>
-                </div>
-                    ))}
+                          {/*<div className="panel-header">*/}
+                          {/*    <div className="panel-meta">*/}
+                          {/*        <p>Comparison</p>*/}
+                          {/*        <h3>Before and After</h3>*/}
+                          {/*    </div>*/}
 
-                </div>
-            </div>
-        </section>
+                          {/*</div>*/}
+
+                          <ReactCompareSlider
+                              defaultValue={50}
+                              style={{ width: "100%", height: "800px" }}
+                              itemOne={
+                                  <ReactCompareSliderImage
+                                      src="/assets/images/before.jpg"
+                                      alt="before"
+                                      className="compare-img"
+                                  />
+                              }
+                              itemTwo={
+                                  <ReactCompareSliderImage
+                                      src="/assets/images/after.png"
+                                      alt="after"
+                                      className="compare-img"
+                                  />
+                              }
+                          />
+
+                      </div>
+                  </div>
+
+              </div>
+          </section>
+
       </div>
         )}

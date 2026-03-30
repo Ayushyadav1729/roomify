@@ -53,7 +53,7 @@ export const createProject = async ({item, visibility= "private"} : CreateProjec
    const payload = {
        ...rest,
        sourceImage: resolvedSource,
-       _renderedImage: resolvedRender,
+       renderedImage: resolvedRender,
    }
 
    try {
